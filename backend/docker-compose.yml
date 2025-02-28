@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+    postgresql:
+      container_name: psql_db
+      image: postgres:13
+      environment:
+        POSTGRES_USER: note-dev
+        POSTGRES_HOST_AUTH_METHOD: trust
+        TZ: Asia/Phnom_Penh
+      volumes:
+        - db:/var/lib/postgresql/data
+      ports:
+        - "5435:5432"
+      networks:
+        - test1
+      restart: unless-stopped
+
+    note-service:
+      container_name: note-service
+      build: .
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql/note_db
+        SPRING_DATASOURCE_USERNAME: note-dev
+        SPRING_DATASOURCE_PASSWORD: note123
+      ports:
+        - "8080:8080"
+      depends_on:
+        - postgresql
+      networks:
+        - test1
+
+networks:
+    test1:
+      driver: bridge
+
+volumes:
+    db:

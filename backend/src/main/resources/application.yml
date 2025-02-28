@@ -1,0 +1,8 @@
+spring:
+  port: 8080
+  datasource:
+    url: jdbc:postgresql://localhost:5435/note_db
+    username: note-dev
+    password: note123
+    driver-class-name: org.postgresql.Driver
+
